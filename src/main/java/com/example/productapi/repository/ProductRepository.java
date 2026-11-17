@@ -1,34 +1,15 @@
 package com.example.productapi.repository;
 
 import com.example.productapi.model.Product;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.List;
 
-@Repository
-public class ProductRepository {
-    private final Map<Long, Product> products = new ConcurrentHashMap<>();
-    private final AtomicLong idGenerator = new AtomicLong(1);
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    List<Product> findByNameContainingIgnoreCase(String keyword);
 
-    public Product save(Product product) {
-        if (product.getId() == null) {
-            product.setId(idGenerator.getAndIncrement());
-        }
-        products.put(product.getId(), product);
-        return product;
-    }
-
-    public Optional<Product> findById(Long id) {
-        return Optional.ofNullable(products.get(id));
-    }
-
-    public List<Product> findAll() {
-        return new ArrayList<>(products.values());
-    }
-
-    public void deleteById(Long id) {
-        products.remove(id);
-    }
+    @Query("SELECT p FROM Product p WHERE p.category.id = :catId")
+    List<Product> findByCategoryId(@Param("catId") Long categoryId);
 }

@@ -1,0 +1,37 @@
+{
+  "info": {
+    "name": "Lab3-API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" }
+  ],
+  "item": [
+    {
+      "name": "1. Créer une catégorie",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/categories",
+        "body": { "mode": "raw", "raw": "{\"name\":\"Électronique\"}" }
+      }
+    },
+    {
+      "name": "2. Créer un produit",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/products",
+        "body": { "mode": "raw", "raw": "{\"name\":\"Smartphone\",\"price\":699.99,\"categoryId\":1}" }
+      }
+    },
+    {
+      "name": "3. Lire le produit",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/products/1" }
+    },
+    {
+      "name": "4. Supprimer le produit",
+      "request": { "method": "DELETE", "url": "{{baseUrl}}/api/products/1" }
+    }
+  ]
+}
